@@ -12,3 +12,7 @@ print(data2)
 #对矩阵进行乘法运算
 data3 = data * data2
 print(data3)
+
+#对矩阵进行求逆运算
+data4 = data3.I
+print(data4)
