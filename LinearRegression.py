@@ -13,7 +13,9 @@ ldx = ld[:,0:5]
 ldy = ld[:,5]
 
 #打印训练集和测试集
+print("training set")
 print(td)
+print("testing set")
 print(ld)
 
 #通过减少均方误差来优化参数
