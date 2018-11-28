@@ -18,7 +18,8 @@ t = ax.text(0, 0, "Direction", ha="center", va="center", rotation=45,
  
 bb = t.get_bbox_patch()
 bb.set_boxstyle("rarrow", pad=0.6)
- 
+
+ #default show range（0，1）
 ax.set_xlim(-4, 4)
 ax.set_ylim(-4, 4)
 
