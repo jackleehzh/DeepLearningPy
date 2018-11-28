@@ -17,6 +17,7 @@ for i in range(100):
     plt.pause(0.1)
     plt.close()
 # 保存图片到指定路径
-plt.savefig("/Users/jacklee/Desktop/HeightAndWeight.png")
+#如果保留此句，将会留下一个关不掉的窗口
+#plt.savefig("/Users/jacklee/Desktop/HeightAndWeight.png")
 # 展示图片
 #plt.show()
