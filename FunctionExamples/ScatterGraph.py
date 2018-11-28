@@ -18,5 +18,5 @@ for i in range(100):
     plt.close()
 # 保存图片到指定路径
 plt.savefig("/Users/jacklee/Desktop/HeightAndWeight.png")
-# 展示图片 *必加
+# 展示图片
 #plt.show()
