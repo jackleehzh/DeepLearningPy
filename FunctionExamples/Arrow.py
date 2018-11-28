@@ -42,6 +42,7 @@ ax.set_aspect('equal')
 #default show range（0，1）
 plt.xlabel('X')
 plt.ylabel('Y')
+plt.title('Arrows') 
 ax.set_xlim(0, 8)
 ax.set_ylim(0, 8)
 
