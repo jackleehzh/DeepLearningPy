@@ -39,11 +39,6 @@ def XOR(x1, x2):
 
 if __name__ == '__main__':
     for xs in [(0, 0), (1, 0), (0, 1), (1, 1)]:
-        y = NAND(xs[0], xs[1])
-        
-
-if __name__ == '__main__':
-    for xs in [(0, 0), (1, 0), (0, 1), (1, 1)]:
         y = OR(xs[0], xs[1])
         print("AND:" + str(xs) + " -> " + str(AND(xs[0], xs[1])))
         print("OR:" + str(xs) + " -> " + str(OR(xs[0], xs[1])))
