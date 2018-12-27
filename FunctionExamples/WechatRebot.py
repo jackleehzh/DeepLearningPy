@@ -26,34 +26,41 @@ def get_response(msg):
     except:
         return
 
-def my_friends():
+def friendsInfo():
     friends = itchat.get_friends(update= True)
     return friends
 
-def my_friends_sex(friends):
+def my_friends(friendsInfo):
+    usersInfo = dict()
+    for friend in friendsInfo[1:]:
+        sex = "其他"
+        if friend["Sex"] == 1:
+            sex = "男性"
+        elif friend["Sex"] == 2:
+            sex = "女性"
+        usersInfo[friend["NickName"]] = [friend["City"], friend["Province"], sex]
+        #print(i["Signature"])
+    return usersInfo
 
-    total = len(friends[1:])
-    print(total)
-    for i in friends[1:]:
-        print(i["NickName"])
-        print(i["City"])
-        print(i["Province"])
-        print(i["Signature"])
-        print(i["Sex"])
-        
+def auto_reply(usersInfo, result):
+    robots=['——李印臣']
+    title = "您"
+    if usersInfo[result["NickName"]][2] == "男性":
+        title = "少爷"
+    elif usersInfo[result["NickName"]][2] == "女性":
+        title = "大小姐"
+    
+    #reply = get_response(msg['Text'])+random.choice(robots)
+    reply = "来自" + usersInfo[result["NickName"]][1] + "省" + usersInfo[result["NickName"]][0] + "市的" + result["NickName"] + "您好，印臣给" + title + "拜年了!" +random.choice(robots)
+    return reply
 
 @itchat.msg_register(itchat.content.TEXT)
 def tuling_reply(msg):
-    my_friends_sex(my_friends())
-    print(msg.text)
-    print(msg.fromUserName)
+    usersInfo = my_friends(friendsInfo())
     result = itchat.search_friends()
-    print(result)
-#    author = itchat.search_friends(nickName='李印臣「哲艺科心」')[0]
-#    author.send('greeting, 36!')
+    
     defaultReply = 'I received: ' + msg['Text']
-    robots=['——李印臣','——印臣','——Jacklee']
-    reply = get_response(msg['Text'])+random.choice(robots)
+    reply = auto_reply(usersInfo, result)
     return reply or defaultReply
 
 #itchat.auto_login(enableCmdQR=True)
