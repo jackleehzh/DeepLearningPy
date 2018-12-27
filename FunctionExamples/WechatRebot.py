@@ -2,6 +2,7 @@
 import requests
 import itchat
 import random
+import WriteExcel
 
 itchat.auto_login()
 
@@ -38,7 +39,7 @@ def my_friends(friendsInfo):
             sex = "男性"
         elif friend["Sex"] == 2:
             sex = "女性"
-        usersInfo[friend["NickName"]] = [friend["City"], friend["Province"], sex]
+        usersInfo[friend["NickName"]] = [friend["City"], friend["Province"], sex, friend["Signature"]]
         #print(i["Signature"])
     return usersInfo
 
@@ -57,6 +58,7 @@ def auto_reply(usersInfo, result):
 @itchat.msg_register(itchat.content.TEXT)
 def tuling_reply(msg):
     usersInfo = my_friends(friendsInfo())
+ #   WriteExcel.writeUsersInfo(usersInfo)
     result = itchat.search_friends()
     
     defaultReply = 'I received: ' + msg['Text']
