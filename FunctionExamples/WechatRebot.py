@@ -43,16 +43,24 @@ def my_friends(friendsInfo):
         #print(i["Signature"])
     return usersInfo
 
-def auto_reply(usersInfo, result):
+def auto_reply(usersInfo, NickName):
     robots=['——李印臣']
     title = "您"
-    if usersInfo[result["NickName"]][2] == "男性":
+    if usersInfo[NickName][2] == "男性":
         title = "少爷"
-    elif usersInfo[result["NickName"]][2] == "女性":
+    elif usersInfo[NickName][2] == "女性":
         title = "大小姐"
+
+    reply = ''
+    if usersInfo[NickName][1] != '':
+        reply = "来自" + usersInfo[NickName][1] + "省"
+    if usersInfo[NickName][0] != '':
+        reply = reply + usersInfo[NickName][0] + "市"
+    if reply != '':
+        reply = reply + "的"
     
     #reply = get_response(msg['Text'])+random.choice(robots)
-    reply = "来自" + usersInfo[result["NickName"]][1] + "省" + usersInfo[result["NickName"]][0] + "市的" + result["NickName"] + "您好，印臣给" + title + "拜年了!" +random.choice(robots)
+    reply = reply + NickName  + title + "您好，印臣给您拜年了!" +random.choice(robots)
     return reply
 
 @itchat.msg_register(itchat.content.TEXT)
@@ -60,9 +68,8 @@ def tuling_reply(msg):
     usersInfo = my_friends(friendsInfo())
  #   WriteExcel.writeUsersInfo(usersInfo)
     result = itchat.search_friends()
-    
     defaultReply = 'I received: ' + msg['Text']
-    reply = auto_reply(usersInfo, result)
+    reply = auto_reply(usersInfo, msg['User']['NickName'])
     return reply or defaultReply
 
 #itchat.auto_login(enableCmdQR=True)
