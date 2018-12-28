@@ -2,17 +2,9 @@
 import requests
 import itchat
 import random
-import WriteExcel
-
-itchat.auto_login()
-
-itchat.send('Hello, filehelper', toUserName='filehelper')
-
-import requests
-import itchat
-import random
 
 KEY = '2c425e188d5e4d58ad23798f634cddf3'
+AUTOFLAG = False
 
 def get_response(msg):
     apiUrl = 'http://www.tuling123.com/openapi/api'
@@ -63,13 +55,27 @@ def auto_reply(usersInfo, NickName):
     reply = reply + NickName  + title + "您好，印臣给您拜年了!" +random.choice(robots)
     return reply
 
+def isAuto(text):
+    global AUTOFLAG
+    if text == '撩你':
+        AUTOFLAG = True
+    elif text == '下去吧':
+        AUTOFLAG = False
+    return AUTOFLAG
+
 @itchat.msg_register(itchat.content.TEXT)
 def tuling_reply(msg):
     usersInfo = my_friends(friendsInfo())
  #   WriteExcel.writeUsersInfo(usersInfo)
-    result = itchat.search_friends()
+    
+        
+    reply = ''
+    if isAuto(msg['Text']):
+        reply = get_response(msg['Text'])+'——纯机器人'
+    else:
+        reply = auto_reply(usersInfo, msg['User']['NickName'])
     defaultReply = 'I received: ' + msg['Text']
-    reply = auto_reply(usersInfo, msg['User']['NickName'])
+    
     return reply or defaultReply
 
 #itchat.auto_login(enableCmdQR=True)
