@@ -2,18 +2,26 @@ import random
 import copy
 import numpy as np
 
+def getArr(ndim):
+    arr = []
+    if ndim == 2:
+        arr = np.empty(shape=[0, 6], dtype=np.int32)
+    return arr
+
+def appendArr(arr, data, ndim):
+    if ndim == 2:
+        arr = np.append(arr, data, axis = 0)
+    elif ndim == 1:
+        arr.append(data)
+    return arr
+
 def delElems(data, index):
     index = sorted(index, reverse=True)
     #trdata = copy.deepcopy(data)
-    trdata = []
-    if np.array(data).ndim == 2:
-        trdata = np.empty(shape=[0, 6], dtype=np.int32)
+    trdata = getArr(np.array(data).ndim)
     for i in range(len(data) - 1):
         if i not in index:
-            if np.array(data).ndim == 2:
-                trdata = np.append(trdata, data[i], axis = 0)
-            elif np.array(data).ndim == 1:
-                trdata.append(data[i])
+            trdata = appendArr(trdata, data[i], np.array(data).ndim)
     return trdata
 
 #留出法
@@ -22,17 +30,12 @@ def holdOut(data, i):
     #随机采样
 #    index = [random.randint(0,99) for _ in range(36) ]
     index = []
-    tsdata = []
-    if np.array(data).ndim == 2:
-        tsdata = np.empty(shape=[0, 6], dtype=np.int32)
+    tsdata = getArr(np.array(data).ndim)
     for i in range(36):
         a = random.randint(0,99)
         if a not in index:
             index.append(a)
-            if np.array(data).ndim == 2:
-                tsdata = np.append(tsdata, data[a], axis = 0)
-            elif np.array(data).ndim == 1:
-                tsdata.append(data[a])
+            tsdata = appendArr(tsdata, data[a], np.array(data).ndim)
         else:
             i = i - 1
 
@@ -55,16 +58,12 @@ def crossValidation(data, i):
 #自助法
 def bootStrapping(data, i):
     print("自助法")
-    trdata = []
+    trdata = getArr(np.array(data).ndim)
     index = []
-    if np.array(data).ndim == 2:
-        trdata = np.empty(shape=[0, 6], dtype=np.int32)
+    
     for i in range(100):
         a = random.randint(0,99)
-        if np.array(data).ndim == 2:
-            trdata = np.append(trdata, data[a], axis = 0)
-        elif np.array(data).ndim == 1:
-            trdata.append(data[a])
+        trdata = appendArr(trdata, data[a], np.array(data).ndim)
         if a not in index:
             index.append(a)
         
@@ -76,7 +75,7 @@ def divideData(data, divideFunc, i):
 
 def main():
     data=[random.randint(0,100) for _ in range(100) ]
-    tsdata, trdata = divideData(data, crossValidation, 0)
+    tsdata, trdata = divideData(data, bootStrapping, 0)
     
     print("initial data")
     print(data)
