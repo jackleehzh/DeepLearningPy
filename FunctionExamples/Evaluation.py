@@ -84,4 +84,4 @@ def main():
     print("training trdata")
     print(trdata)
 
-main()
+#main()
