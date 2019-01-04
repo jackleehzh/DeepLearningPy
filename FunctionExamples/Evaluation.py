@@ -1,5 +1,5 @@
 import random
-import copy
+#import copy
 import numpy as np
 
 def getArr(ndim):
@@ -25,8 +25,7 @@ def delElems(data, index):
     return trdata
 
 #留出法
-def holdOut(data, i):
-    print("留出法")
+def holdOut(data, times):
     #随机采样
 #    index = [random.randint(0,99) for _ in range(36) ]
     index = []
@@ -41,23 +40,21 @@ def holdOut(data, i):
 
     #剔除采样数据
     trdata = delElems(data, index)
-    print(tsdata)
-    print(trdata)
+    #print(tsdata)
+    #print(trdata)
     return tsdata, trdata
 
 #交叉验证法
-def crossValidation(data, i):
-    print("交叉验证法")
-    tsdata = data[i * 10: (i + 1) *10]
+def crossValidation(data, times):
+    tsdata = data[times * 10: (times + 1) *10]
     if np.array(data).ndim == 2:
-        trdata = np.vstack((data[0:i * 10], data[(i + 1) *10:]))
+        trdata = np.vstack((data[0:times * 10], data[(times + 1) *10:]))
     elif np.array(data).ndim == 1:
-        trdata = data[0:i * 10] + data[(i + 1) *10:]
+        trdata = data[0:times * 10] + data[(times + 1) *10:]
     return tsdata, trdata
 
 #自助法
-def bootStrapping(data, i):
-    print("自助法")
+def bootStrapping(data, times):
     trdata = getArr(np.array(data).ndim)
     index = []
     
@@ -70,8 +67,8 @@ def bootStrapping(data, i):
     tsdata = delElems(data, index)
     return tsdata, trdata
 
-def divideData(data, divideFunc, i):
-    return divideFunc(data, i)
+def divideData(data, divideFunc, times):
+    return divideFunc(data, times)
 
 def main():
     data=[random.randint(0,100) for _ in range(100) ]
