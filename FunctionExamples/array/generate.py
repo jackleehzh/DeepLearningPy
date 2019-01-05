@@ -1,3 +1,4 @@
+import numpy as np
 import copy
 def getArr(m,n,x):
     if m!=len(n):
@@ -10,9 +11,5 @@ def getArr(m,n,x):
             dimensions_num+=1
         return result
 
-a = getArr(1, [5], 2)
-print(a)
-
-
-b = getArr(2, [5, 4], 2)
-print(b)
+def getEmptyMatrix(n):
+    return np.empty(shape=[0, n])
