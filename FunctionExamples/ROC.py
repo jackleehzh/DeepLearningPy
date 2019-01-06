@@ -134,9 +134,17 @@ def ROC(x, y, x2, y2):
     plt.legend()
     plt.show()
 
+def AUC(x, y):
+    result = 0
+    for i in range(len(x) - 1):
+        result = result + (x[i + 1] - x[i]) * (y[i] + y[i + 1])
+    return result / 2
+
 data = generateData(2, 100, 6)
 result = getPoints(data, holdOut, 10)
 result2 = getPoints(data, bootStrapping, 10)
 x, y = divideArr(reshape(result, [len(result), 2]), 2)
 x2, y2 = divideArr(reshape(result2, [len(result2), 2]), 2)
+print(AUC(x, y))
 ROC(x, y, x2, y2)
+
