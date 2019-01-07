@@ -1,6 +1,15 @@
 # coding:utf8
 
 import copy
+import numpy as np
+import math
+from scipy import stats
+ 
+#n = 4
+#p = 0.25
+#k = np.arange(0,5)
+#binomial = stats.binom.pmf(k,n,p)
+#print(binomial)
 
 def getArr(m,n,x):
     if m!=len(n):
@@ -84,7 +93,8 @@ def confidence(N, k, p, a):
         while(k <= N):
             conf = conf + binomial3(N, k, p)
             k = k + 1
-
+        print(conf)
+        print(p)
         if conf > a + 0.000001 or conf < a - 0.000001:
             if p / 2 ** times < (conf - a):
                 while(p - p / 2 ** times < 0):
@@ -113,6 +123,39 @@ def confidence(N, k, p, a):
     #return round(p, 4)
     return p
 
+def confidence2(N, k, p, a): 
+    times = 1
+    kk = np.arange(0,N + 1)
+
+    while(True):
+        ret = stats.binom.cdf(kk,N,p, loc=N - k + 1)
+        conf = 1 - ret[-1]
+
+        if conf > a + 0.000001 or conf < a - 0.000001:
+            if p / 2 ** times < (conf - a):
+                while(p - p / 2 ** times < 0):
+                    times = times + 1
+                p = p - p / 2 ** times
+            elif p / 2 ** times < (a - conf):
+                while(p - p / 2 ** times > 1):
+                    times = times + 1
+                p = p + p / 2 ** times
+            else:
+                q = conf - a
+                while p - q > 1 or p - q < 0:
+                    q = q / 2
+                p = p - q
+        else:
+            break
+        
+        times = times + 1
+        if times > 100:
+            print("参数错误")
+            p = -1
+            break
+    
+    return p
+
 #这个函数好像没什么用处
 def limitConfidence(N, k, p, a):
 
@@ -130,4 +173,5 @@ def limitConfidence(N, k, p, a):
 binomial(2, 1, 0.5)
 Binomial2(2, 1, 0.5)
 #print(binomial3(4, 2, 0.5))
-print(limitConfidence(100, 70, 0.7, 0.00000001))
+print(confidence(4, 3, 0.5, 0.05))
+print(confidence2(4, 3, 0.5, 0.05))
