@@ -1,71 +1,9 @@
-#显示信息
 # encoding=utf8 
-import sys
-import importlib
 import time
-import remind
 import threading
 
-def loadData(filename):
-    list0 = []
-    dict0 = {}
-    count = 0
-    f = open(filename, encoding='utf8')
-
-    while True:
-        line = f.readline()
-        if not line:
-            break
-
-        list0.append(line)
-        num = line[line.rfind('【') + 1:-2]
-        dict0[num] = count
-        count = count + 1
-            
-    f.close()
-    return list0, dict0
-
-def loadInfo(filename):
-    list0 = []
-    f = open(filename, encoding='utf8')
-
-    while True:
-        line = f.readline()
-        if not line:
-            break
-
-        list0.append(line)
-           
-    f.close()
-    return list0
-
-def initInfo(filename1, filename2):
-    f = open(filename1, encoding='utf8')
-    f2 = open(filename2, 'w', encoding='utf8')
-    count = 0
-#重点等级（1-3），难点等级（1-3），疑点（1-3），记忆次数,
-#本次是否通过，开始学习时间，最后学习时间
-    key = 0
-    diffcult = 0
-    doubt = 0
-    rememberTimes = 0
-    isOK = 0
-    time1 = 0
-    time2 = 0
-    while True:
-        line = f.readline()
-        if not line:
-            break
-        
-        line = line.strip()
-        num = line[line.rfind('【') + 1:-1]
-        print(num + ' ' + str(key) + ' ' + str(diffcult) + ' ' + str(doubt)
-            + ' ' + str(rememberTimes) + ' ' + str(isOK) + ' ' + str(time1)
-            + ' ' + str(time2), file=f2) 
-        count = count + 1
-            
-    f.close()
-    f2.close()
+import remind
+import rw
 
 def maxNum(filename):
     f = open(filename, encoding='utf8')
@@ -87,10 +25,8 @@ def maxNum(filename):
     print(maxnum)            
     f.close()
 
-filename1 = '/Users/jacklee/Desktop/2020.txt'
-filename2 = '/Users/jacklee/Desktop/2020-2.txt'
-#loadData(filename1)
-#loadInfo(filename2)
+filename1 = '2020.txt'
+filename2 = '2020-2.txt'
 
 def getTime(list0):
     list5 = []
@@ -101,7 +37,7 @@ def getTime(list0):
             list5.append(b)
     return list5
 
-def remind(list0):
+def remindMe(list0):
     while True:
         for a in list0:
  #           if int(time.time() - a) < 100:
@@ -109,10 +45,10 @@ def remind(list0):
             remind.remind(0, int(time.time() - a))
 
 def show(filename1, filename2):
-    list0, dict0 = loadData(filename1)
-    list2 = loadInfo(filename2)
+    list0, dict0 = rw.loadData(filename1)
+    list2 = rw.loadInfo(filename2)
     list4 = getTime(list2)
-    t = threading.Thread(target=remind,args=(list4,))
+    t = threading.Thread(target=remindMe,args=(list4,))
     t.setDaemon(True) ## thread1,它做为程序主线程的守护线程,当主线程退出时,thread1线程也会退出,由thread1启动的其它子线程会同时退出,不管是否执行完任务
     t.start()
     layer = 0
@@ -151,8 +87,8 @@ def show(filename1, filename2):
         print('m.\t修改内容')
         print('e.\t退出')
         print(list3)
-        list2 = updateInfo(list3, list2)
-        writeFile(filename2, list2)
+        list2 = rw.updateInfo(list3, list2)
+        rw.writeFile(filename2, list2)
         num = input("请输入：")
         if num == 'e':
             return
@@ -166,48 +102,7 @@ def show(filename1, filename2):
             layer = layer + 1
         uplayerBeginline = list3[num]
         
-    return list3
+    return list3    
 
-def updateInfo(list0, list2):
-    key = 0
-    diffcult = 0
-    doubt = 0
-    rememberTimes = 0
-    isOK = 0
-    time1 = 0
-    time2 = 0
-    num = 0
-    for a in list0:
-        
-        if(len(list2[a].strip()) < 7):
-            continue
-        arr = list2[a].split(' ')
-        num = arr[0]
-        key = int(arr[1])
-        diffcult = int(arr[2])
-        doubt = int(arr[3])
-        rememberTimes = int(arr[4])
-        isOK = int(arr[5])
-        time1 = int(arr[6])
-        time2 = int(time.time())
-        print(time2)
-        if time1 == 0:
-            time1 = time2
-        
-        #print(num + ' ' + str(key) + ' ' + str(diffcult) + ' ' + str(doubt)
- #           + ' ' + str(rememberTimes) + ' ' + str(isOK) + ' ' + str(time1)
- #           + ' ' + str(time2))
-        list2[a] = num + ' ' + str(key) + ' ' + str(diffcult) + ' ' + str(doubt) + ' ' + str(rememberTimes) + ' ' + str(isOK) + ' ' + str(time1) + ' ' + str(time2)
-    return list2
-
-def writeFile(filename, list0):
-    f = open(filename, 'w', encoding='utf8')
-    for a in list0:
-        if len(a.strip()) > 7:
-            print(a, file=f)
-    f.close()
-    
-
-#updateInfo()
 show(filename1, filename2)
 #remind.remind(0, 0)
