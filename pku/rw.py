@@ -10,7 +10,6 @@ def loadData(filename):
         line = f.readline()
         if not line:
             break
-
         list0.append(line)
         num = line[line.rfind('【') + 1:-2]
         dict0[num] = count
@@ -27,7 +26,6 @@ def loadInfo(filename):
         line = f.readline()
         if not line:
             break
-
         list0.append(line)
            
     f.close()
@@ -71,9 +69,6 @@ def updateInfo(list0, list2):
     time2 = 0
     num = 0
     for a in list0:
-        
-        if(len(list2[a].strip()) < 7):
-            continue
         arr = list2[a].split(' ')
         num = arr[0]
         key = int(arr[1])
@@ -86,16 +81,15 @@ def updateInfo(list0, list2):
         print(time2)
         if time1 == 0:
             time1 = time2
-        
-        #print(num + ' ' + str(key) + ' ' + str(diffcult) + ' ' + str(doubt)
- #           + ' ' + str(rememberTimes) + ' ' + str(isOK) + ' ' + str(time1)
- #           + ' ' + str(time2))
         list2[a] = num + ' ' + str(key) + ' ' + str(diffcult) + ' ' + str(doubt) + ' ' + str(rememberTimes) + ' ' + str(isOK) + ' ' + str(time1) + ' ' + str(time2)
+
     return list2
 
 def writeFile(filename, list0):
     f = open(filename, 'w', encoding='utf8')
     for a in list0:
-        if len(a.strip()) > 7:
+        if a[-1:] == '\n':
+            print(a[:-1], file=f)#因print输出自带换行
+        else:
             print(a, file=f)
     f.close()

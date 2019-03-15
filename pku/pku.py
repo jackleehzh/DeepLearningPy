@@ -29,13 +29,11 @@ filename1 = '2020.txt'
 filename2 = '2020-2.txt'
 
 def getTime(list0):
-    list5 = []
+    list2 = []
     for a in list0:
-        if(len(a.strip()) > 7):
-            arr = a.split(' ')
-            b = int(arr[6])
-            list5.append(b)
-    return list5
+        arr = a.split(' ')
+        list2.append(int(arr[6]))
+    return list2
 
 def remindMe(list0):
     while True:
