@@ -40,7 +40,7 @@ def test(n):
                 printNewLine()
                 print('总结一下吧! 时间 ' + str(list11[10][0][1] - list11[10][0][0]) + ' 分钟！')
 
-def remind(n, m):
+def remind2(n, m):
     for i in range(11):
         if i != 9 and i != 4 and i != 10:
             if(m == list11[i][0][0]):
@@ -63,6 +63,13 @@ def remind(n, m):
             printNewLine()
             print('总结一下吧! 时间 ' + str(list11[10][0][1] - list11[10][0][0]) + ' 分钟！')
 
+def remind(dict1, list0, dict0):
+   
+    for key in dict1:
+        i = dict0[key]
+        s = list0[i]
+        print(s)
+        
 
 #test(0)
 #printNewLine()
