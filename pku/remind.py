@@ -64,12 +64,28 @@ def remind2(n, m):
             print('总结一下吧! 时间 ' + str(list11[10][0][1] - list11[10][0][0]) + ' 分钟！')
 
 def remind(dict1, list0, dict0):
-    for key in dict1:
-        i = dict0[key]
-        s = list0[i]
-        s = s.strip()#此处和print语句需要分开写，否则最外层的字符串还是原来的
-        print('复习:\t' + s[:s.find('【')])
-    input("按回车继续：")
+    sorted(dict1.items(), key=lambda item:item[1])
+    values = []
+    keys = []
+    for k,v in dict1.items():
+        print(k, v)
+        values.append(v)
+        keys.append(k)
+  
+    lastValue = values[0]
+    for j in range(len(dict1)):
+        value = values[j]
+        key = keys[j]
+        if value == lastValue:
+            i = dict0[key]
+            s = list0[i]
+            s = s.strip()#此处和print语句需要分开写，否则最外层的字符串还是原来的
+            print('复习:\t' + s[:s.find('【')])
+            
+        else:
+            lastValue = value
+            j = j - 1
+            input("按回车继续：")
         
 
 #test(0)
