@@ -87,30 +87,32 @@ def show(filename1, filename2):
             if c == layer and count >= uplayerBeginline:
                 begin = True
                 if count2 == 0:
-                    print('0.\t返回上一层')
+                    print('b.\t返回上一层')
+                    print('a.\t增加内容')
+                    print('d.\t删除内容')
+                    print('m.\t修改内容')
+                    print('e.\t退出')
+                    print('-------------------')
                 count2 = count2 + 1                      
-                print(str(count2) + '.\t' + a)
+                print(str(count2) + '.\t' + a[:a.find('【')])
                 list3.append(count)
  
             count = count + 1
                 
-        print('a.\t增加内容')
-        print('d.\t删除内容')
-        print('m.\t修改内容')
-        print('e.\t退出')
-        print(list3)
+        
+        #print(list3)
         list2 = rw.updateInfo(list3, list2)
         rw.writeFile(filename2, list2)
         num = input("请输入：")
         if num == 'e':
             return
-        else:
-            num = int(num)
-        if num == -1:
-            break
-        if num == 0:
+        elif num == 'b':
+            num = 0
             layer = layer - 1
         else:
+            num = int(num)
+            if num == -1:
+                break
             layer = layer + 1
         uplayerBeginline = list3[num]
         

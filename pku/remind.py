@@ -68,7 +68,7 @@ def remind(dict1, list0, dict0):
     for key in dict1:
         i = dict0[key]
         s = list0[i]
-        print(s)
+        #print(s)
         
 
 #test(0)

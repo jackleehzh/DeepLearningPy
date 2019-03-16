@@ -78,7 +78,6 @@ def updateInfo(list0, list2):
         isOK = int(arr[5])
         time1 = int(arr[6])
         time2 = int(time.time())
-        print(time2)
         if time1 == 0:
             time1 = time2
         list2[a] = num + ' ' + str(key) + ' ' + str(diffcult) + ' ' + str(doubt) + ' ' + str(rememberTimes) + ' ' + str(isOK) + ' ' + str(time1) + ' ' + str(time2)
