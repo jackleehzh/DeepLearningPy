@@ -25,9 +25,6 @@ def maxNum(filename):
     print(maxnum)            
     f.close()
 
-filename1 = '2020.txt'
-filename2 = '2020-2.txt'
-
 def getTime(list0):
     dict0 = {}
     for a in list0:
@@ -35,32 +32,34 @@ def getTime(list0):
         dict0[arr[0]] = int(arr[6])
     return dict0
 
-def remindMe(list0, dict0, dict2):
+def remindMe(list0, dict0):
+    global dict2
     while True:
         t = int(time.time())
         maxnum = 0
         dict1 = {}
-        
         for key in dict2:
             t2 = t - dict2[key]
-            if t2 >= 250 and t2 <= 3000:
+            if t2 >= 25 and t2 <= 30:
                 if maxnum < t2:
                     maxnum = t2
                 dict1[key] = t2
                 
-        t1 = 3000 - maxnum
+        t1 = 30 - maxnum
         if t1 > 0:
             for key in dict1:
                 dict1[key] = dict1[key] + t1
- #           time.sleep(t1)
-        remind.remind(dict1, list0, dict0)
-        time.sleep(2)
+            time.sleep(t1)
+        if len(dict1) > 0:
+            remind.remind(dict1, list0, dict0)
+            time.sleep(2)
 
 def show(filename1, filename2):
     list0, dict0 = rw.loadData(filename1)
     list2 = rw.loadInfo(filename2)
+    global dict2
     dict2 = getTime(list2)
-    t = threading.Thread(target=remindMe,args=(list0, dict0, dict2))
+    t = threading.Thread(target=remindMe,args=(list0, dict0))
     t.setDaemon(True) ## thread1,它做为程序主线程的守护线程,当主线程退出时,thread1线程也会退出,由thread1启动的其它子线程会同时退出,不管是否执行完任务
     t.start()
     layer = 0
@@ -102,6 +101,7 @@ def show(filename1, filename2):
         
         #print(list3)
         list2 = rw.updateInfo(list3, list2)
+        dict2 = getTime(list2)
         rw.writeFile(filename2, list2)
         num = input("请输入：")
         if num == 'e':
@@ -116,6 +116,11 @@ def show(filename1, filename2):
             layer = layer + 1
         uplayerBeginline = list3[num]
         
-    return list3    
+    return list3
 
+filename1 = '2020.txt'
+filename2 = '2020-2.txt'
+dict2 = {}
+
+rw.initInfo(filename1, filename2)
 show(filename1, filename2)
