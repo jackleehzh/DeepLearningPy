@@ -101,16 +101,19 @@ def show(filename1, filename2):
         dict2 = update(list3, list2)
         remindMe(list0, dict0)
         num = input("请输入：")
+        while num != 'a' and num != 'b' and num != 'd' and num !='e' and num !='m' and (num > '9' or num < '1'):
+            num = input("请输入：")
         if num == 'e':
             return
         elif num == 'b':
             num = 0
             layer = layer - 1
-        else:
+        elif num.isdigit():
             num = int(num)
             if num == -1:
                 break
             layer = layer + 1
+            
         uplayerBeginline = list3[num]
         
     return list3

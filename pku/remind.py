@@ -68,7 +68,6 @@ def remind(dict1, list0, dict0):
     values = []
     keys = []
     for k,v in dict1.items():
-        print(k, v)
         values.append(v)
         keys.append(k)
   
