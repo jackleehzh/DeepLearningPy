@@ -32,27 +32,23 @@ def getTime(list0):
         dict0[arr[0]] = int(arr[6])
     return dict0
 
+bTime = 25 * 60 / 500
+mTime = 35 * 60 / 300
+eTime = 30 * 60 / 500
+
 def remindMe(list0, dict0):
     global dict2
-    while True:
-        t = int(time.time())
-        maxnum = 0
-        dict1 = {}
-        for key in dict2:
-            t2 = t - dict2[key]
-            if t2 >= 2 and t2 <= 4:
-                if maxnum < t2:
-                    maxnum = t2
-                dict1[key] = t2
-                
-        t1 = 4 - maxnum
-        if t1 > 0:
-            for key in dict1:
-                dict1[key] = dict1[key] + t1
-            time.sleep(t1)
-        if len(dict1) > 0:
-            remind.remind(dict1, list0, dict0)
-            time.sleep(2)
+    t = int(time.time())
+    maxnum = 0
+    dict1 = {}
+    for key in dict2:
+        t2 = t - dict2[key]
+        if t2 >= bTime and t2 <= mTime:
+            if maxnum < t2:
+                maxnum = t2
+            dict1[key] = t2
+    if eTime - maxnum <= 0:
+        remind.remind(dict1, list0, dict0)
 
 def printCMD():
     print('b.\t返回上一层')
@@ -61,11 +57,6 @@ def printCMD():
     print('m.\t修改内容')
     print('e.\t退出')
     print('-------------------')
-
-def remindThread(list0, dict0):
-    t = threading.Thread(target=remindMe,args=(list0, dict0))
-    t.setDaemon(True) ## thread1,它做为程序主线程的守护线程,当主线程退出时,thread1线程也会退出,由thread1启动的其它子线程会同时退出,不管是否执行完任务
-    t.start()
 
 def update(list3, list2):
     list2 = rw.updateInfo(list3, list2)
@@ -78,7 +69,6 @@ def show(filename1, filename2):
     list2 = rw.loadInfo(filename2)
     global dict2
     dict2 = getTime(list2)
-    remindThread(list0, dict0)
     layer = 0
     uplayerBeginline = 0
     sameLayer = False
@@ -109,6 +99,7 @@ def show(filename1, filename2):
             count = count + 1
                 
         dict2 = update(list3, list2)
+        remindMe(list0, dict0)
         num = input("请输入：")
         if num == 'e':
             return
