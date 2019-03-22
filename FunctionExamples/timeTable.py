@@ -1,20 +1,8 @@
 # coding:utf-8
 import pyttsx3
 import engineio
-import wx
 
 import time
-
-class TimeTable(wx.Frame):
-    def __init__(self):
-        wx.Frame.__init__(self, None, -1, 'Time Table', size=(300, 300))
-        panel = wx.Panel(self, -1)
-        self.button = wx.Button(panel, -1, 'confirm', pos=(50, 20))
-        self.Bind(wx.EVT_BUTTON, self.OnClick, self.button)
-        self.button.SetDefault()
-
-    def OnClick(self, event):
-        self.button.SetLabel('Clicked!')
 
 str = time.strftime('%H:%M',time.localtime(time.time()))
 
